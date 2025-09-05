@@ -1,0 +1,158 @@
+@Restaurants.Api_HostAddress = https://localhost:7068
+
+
+
+GET {{Restaurants.Api_HostAddress}}/api/restaurants
+Authorization: Bearer {{login.response.body.$.accessToken}}
+###
+
+GET {{Restaurants.Api_HostAddress}}/api/restaurants/21
+Authorization: Bearer {{login.response.body.$.accessToken}}
+###
+
+POST {{Restaurants.Api_HostAddress}}/api/restaurants
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.$.accessToken}}
+{
+     "Name": "Tasty Beese",
+    "Description": "A culinary experience like no other",
+    "Category": "Indian",
+    "HasDelivery": true,
+    "ContactEmail": "info@gourmand.com",
+    "ContactNumber": "555-666-111",
+    "City": "Metropolis",
+    "Street": "456 Gourmet",
+    "PostalCode": "54-663"
+}
+
+###
+
+POST {{Restaurants.Api_HostAddress}}/api/restaurants
+Content-Type: application/json
+
+{
+
+}
+
+###
+POST {{Restaurants.Api_HostAddress}}/api/restaurants
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.$.accessToken}}
+{
+    "Name": "Spicy Delights by Owner@test.com",
+    "Description": "A culinary experience like no other",
+    "Category": "Indian",
+    "HasDelivery": true,
+    "ContactEmail": "info@gourmand.com",
+    "ContactNumber": "555-666-111",
+    "City": "Metropolis",
+    "Street": "456 Gourmet",
+    "PostalCode": "54-663"
+}
+
+###
+PUT {{Restaurants.Api_HostAddress}}/api/restaurants/28
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.$.accessToken}}
+{
+
+  
+}
+
+###
+
+PATCH {{Restaurants.Api_HostAddress}}/api/restaurants/2
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.$.accessToken}}
+{
+  "Name": "Indian 2 restaurant",
+  "Description" : "Very bad restaurant",
+  "HasDelivery" : true
+}
+
+###
+
+DELETE {{Restaurants.Api_HostAddress}}/api/restaurants/25
+Authorization: Bearer {{login.response.body.$.accessToken}}
+###
+
+POST {{Restaurants.Api_HostAddress}}/api/restaurant/21/dishes
+Content-Type: application/json
+
+{
+    "Name": "Toto",
+    "Description" : "Titi"
+}
+
+###
+
+@restaurantId=0
+GET {{Restaurants.Api_HostAddress}}/api/restaurant/{{restaurantId}}/dishes
+
+###
+
+@dishId=0
+GET {{Restaurants.Api_HostAddress}}/api/restaurant/1/dishes/1
+
+###
+
+DELETE {{Restaurants.Api_HostAddress}}/api/restaurant/1/Dishes/2
+
+###
+
+PATCH {{Restaurants.Api_HostAddress}}/api/restaurant/1/Dishes/1
+Content-Type: application/json
+Accept: application/json
+{
+    "kiloCalories": 120
+}
+
+###
+PUT {{Restaurants.Api_HostAddress}}/api/restaurant/1/Dishes/1
+Content-Type: application/json
+Accept: application/json
+{
+    "name": "Nashville Hot Chicken",
+    "description": "Nashville Hot Chicken 10 pcs.",
+    "price": 10.30,
+    "kiloCalories": 121
+}
+###
+GET https://localhost:7068/api/restaurant/21/Dishes/7
+
+###
+POST {{Restaurants.Api_HostAddress}}/api/identity/register
+Content-Type: application/json
+Accept: application/json
+{
+    "email": "owner@test.com",
+    "password": "123456aA$"
+}
+###
+# @name login
+POST {{Restaurants.Api_HostAddress}}/api/identity/login
+Content-Type: application/json
+Accept: application/json
+{
+    "email": "owner@test.com",
+    "password": "123456aA$"
+}
+
+###
+
+PATCH {{Restaurants.Api_HostAddress}}/api/identity/user
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{login.response.body.$.accessToken}}
+{
+    "dateOfBirth": "1990-01-22",
+    "nationality": "American"
+}
+###
+GET {{Restaurants.Api_HostAddress}}/api/restaurants?searchPhrase=new&pageNumber=1&pageSize=50&sortBy=Category&sortDirection=Desc
+
+###
+
+GET {{Restaurants.Api_HostAddress}}/api/restaurants
+
+###
