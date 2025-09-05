@@ -22,6 +22,10 @@ namespace Restaurants.Tests.Api.Controllers
     {
         private readonly WebApplicationFactory<Program> _factory;
         private readonly Mock<IRestaurantsRepository> _restaurantsRepositoryMock = new();
+
+        private readonly Mock<IRestaurantSeeder> _restaurantSeederMock = new();
+
+
         public RestaurantsControllerTests(WebApplicationFactory<Program> factory)
         {
             _factory = factory.WithWebHostBuilder(builder =>
@@ -32,6 +36,11 @@ namespace Restaurants.Tests.Api.Controllers
 
                     services.Replace(ServiceDescriptor.Scoped(typeof(IRestaurantsRepository),
                         _ => _restaurantsRepositoryMock.Object));
+
+
+
+                    services.Replace(ServiceDescriptor.Scoped(typeof(IRestaurantSeeder),
+                        _ => _restaurantSeederMock.Object));
 
                 });
             });
