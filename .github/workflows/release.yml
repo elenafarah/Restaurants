@@ -11,42 +11,45 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.0.0
+        uses: actions/checkout@v4
 
-      - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v4.0.0
+      - name: Setup .NET 8 SDK
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
 
-      - name: Restore dependencies
+      - name: Restore
         run: dotnet restore
 
       - name: Build
-        run: dotnet build --no-restore -c Release
+        run: dotnet build -c Release --no-restore
 
-      - name: publish
-        run: dotnet publish ./Restaurants.Api/Restaurants.Api.csproj -o ${{env.DOTNET_ROOT}}/api --no-build 
-      - uses: actions/upload-artifact@v4.6.2
+      - name: Publish
+        run: dotnet publish ./Restaurants.Api/Restaurants.Api.csproj -c Release -o ./publish --no-build
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
         with:
           name: api-artifact
-          path: ${{env.DOTNET_ROOT}}/api
-        
+          path: ./publish
+          if-no-files-found: error
+
   deploy-dev:
     runs-on: ubuntu-latest
     needs: build
+    # facultatif : utile si tu veux des approbations d'env dans GitHub
+    # environment: development
+
     steps:
-      - name: Download a Build Artifact
-      - uses: actions/download-artifact@v5.0.0
+      - name: Download artifact
+        uses: actions/download-artifact@v4
         with:
           name: api-artifact
+          path: ./drop
 
-      
-      - name: Azure WebApp
-        uses: Azure/webapps-deploy@v3.0.6
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
         with:
-          app-name: 'restaurantes-api-dev'
-          publish-profile: ${{secrets.PUBLISH_PROFILE_DEV}}
-
-
-  
-  
+          app-name: restaurants-api-dev         # <-- EXACT nom de l'app
+          publish-profile: ${{ secrets.PUBLISH_PROFILE_DEV }}
+          package: ./drop                       # <-- dossier téléchargé
